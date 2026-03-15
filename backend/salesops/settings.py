@@ -126,3 +126,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
+
+import mongoengine
+
+mongoengine.connect(
+    db="salesops360",
+    host="mongodb://localhost:27017/salesops360"
+)
