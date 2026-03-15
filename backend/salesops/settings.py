@@ -130,6 +130,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 import mongoengine
 
 mongoengine.connect(
-    db="salesops360",
-    host="mongodb://localhost:27017/salesops360"
+    db="sales360",
+    host="mongodb+srv://admin:admin123@sales360.zztdhwr.mongodb.net/?appName=sales360"
 )
