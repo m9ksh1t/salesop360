@@ -133,3 +133,9 @@ mongoengine.connect(
     db="sales360",
     host="mongodb+srv://admin:admin123@sales360.zztdhwr.mongodb.net/?appName=sales360"
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}

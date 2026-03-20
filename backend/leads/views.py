@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Lead
-
+from .tasks import notify_new_lead
 
 @api_view(['GET'])
 def get_leads(request):
@@ -35,3 +35,14 @@ def create_lead(request):
     lead.save()
 
     return Response({"message": "Lead created successfully"})
+
+@api_view(['DELETE'])
+def delete_lead(request, id):
+
+    lead = Lead.objects(id=id).first()
+
+    if lead:
+        lead.delete()
+        return Response({"message": "Lead deleted"})
+    
+    return Response({"error": "Lead not found"})
