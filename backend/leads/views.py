@@ -46,3 +46,18 @@ def delete_lead(request, id):
         return Response({"message": "Lead deleted"})
     
     return Response({"error": "Lead not found"})
+
+from django.contrib.auth.models import User
+
+@api_view(['POST'])
+def register_user(request):
+
+    username = request.data.get("username")
+    password = request.data.get("password")
+
+    if User.objects.filter(username=username).exists():
+        return Response({"error": "User already exists"})
+
+    user = User.objects.create_user(username=username, password=password)
+
+    return Response({"message": "User created successfully"})
