@@ -61,3 +61,21 @@ def register_user(request):
     user = User.objects.create_user(username=username, password=password)
 
     return Response({"message": "User created successfully"})
+
+from django.contrib.auth.models import User
+
+@api_view(['POST'])
+def reset_password(request):
+
+    username = request.data.get("username")
+    password = request.data.get("password")
+
+    try:
+        user = User.objects.get(username=username)
+        user.set_password(password)   # 🔥 IMPORTANT (hashes password)
+        user.save()
+
+        return Response({"message": "Password reset successful"})
+
+    except User.DoesNotExist:
+        return Response({"error": "User not found"})
