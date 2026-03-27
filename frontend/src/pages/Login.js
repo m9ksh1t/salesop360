@@ -8,7 +8,7 @@ function Login({ setAuthenticated }) {
 
   const login = () => {
 
-    axios.post("http://127.0.0.1:8000/api/login/",{
+    axios.post("https://salesop360-backend.onrender.com/api/login/",{
       username,
       password
     })
