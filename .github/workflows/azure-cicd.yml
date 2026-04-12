@@ -14,6 +14,12 @@ jobs:
     # Checkout
     - name: Checkout code
       uses: actions/checkout@v3
+    
+    # Login to Azure
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     # -------- BACKEND --------
     - name: Setup Python
@@ -35,7 +41,6 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: salesops-backend-mokshit   # 👈 change this
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ./backend
 
     # -------- FRONTEND --------
