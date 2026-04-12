@@ -1,0 +1,64 @@
+name: Azure CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # Checkout
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # -------- BACKEND --------
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install Backend Dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+
+    - name: Django Check
+      run: |
+        cd backend
+        python manage.py check
+
+    - name: Deploy Backend to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: salesops-backend-mokshit   # 👈 change this
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ./backend
+
+    # -------- FRONTEND --------
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build
+
+    - name: Deploy Frontend to Azure
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        action: "upload"
+        app_location: "frontend"
+        output_location: "build"
