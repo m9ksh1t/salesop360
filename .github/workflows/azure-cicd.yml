@@ -14,7 +14,7 @@ jobs:
     # Checkout
     - name: Checkout code
       uses: actions/checkout@v3
-    
+
     # Login to Azure
     - name: Azure Login
       uses: azure/login@v1
@@ -37,11 +37,20 @@ jobs:
         cd backend
         python manage.py check
 
-    - name: Deploy Backend to Azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: salesops-backend-mokshit   # 👈 change this
-        package: ./backend
+    # 🔥 ZIP BACKEND (NEW STEP)
+    - name: Zip Backend
+      run: |
+        cd backend
+        zip -r ../backend.zip .
+
+    # 🔥 DEPLOY USING AZURE CLI (FIXED STEP)
+    - name: Deploy Backend via Azure CLI
+      run: |
+        az webapp deploy \
+          --resource-group salesops-rg \
+          --name salesops-backend-mokshit \
+          --src-path backend.zip \
+          --type zip
 
     # -------- FRONTEND --------
     - name: Setup Node
