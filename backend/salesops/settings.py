@@ -133,16 +133,19 @@ CORS_ALLOW_ALL_ORIGINS = True
 import os
 from mongoengine import connect
 
-def connect_mongo():
-    MONGO_URI = os.getenv("MONGO_URI")
+import os
+from mongoengine import connect
+
+MONGO_URI = os.getenv("MONGO_URI")
+
+if MONGO_URI:
     try:
-        if MONGO_URI:
-            connect(host=MONGO_URI)
-            print("✅ MongoDB connected")
-        else:
-            print("⚠️ MONGO_URI not set")
+        connect(host=MONGO_URI)
+        print("✅ MongoDB connected")
     except Exception as e:
-        print("❌ MongoDB connection failed:", e)
+        print("❌ MongoDB failed:", e)
+else:
+    print("⚠️ MONGO_URI not set")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
