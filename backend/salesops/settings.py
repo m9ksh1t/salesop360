@@ -133,7 +133,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 import mongoengine
 
 mongoengine.connect(
-    host=os.getenv("MONGO_URI")
+    db="sales360",
+    host="mongodb+srv://admin:admin123@sales360.zztdhwr.mongodb.net/?appName=sales360"
 )
 
 REST_FRAMEWORK = {
