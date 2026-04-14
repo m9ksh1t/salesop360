@@ -138,12 +138,16 @@ from mongoengine import connect
 
 MONGO_URI = os.getenv("MONGO_URI")
 
+import os
+from mongoengine import connect
+
+MONGO_URI = os.getenv("MONGO_URI")
+
 if MONGO_URI:
     try:
         connect(host=MONGO_URI)
-        print("✅ MongoDB connected")
     except Exception as e:
-        print("❌ MongoDB failed:", e)
+        print("Mongo failed:", e)
 else:
     print("⚠️ MONGO_URI not set")
 
