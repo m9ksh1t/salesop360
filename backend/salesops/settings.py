@@ -130,12 +130,19 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 
-import mongoengine
+import os
+from mongoengine import connect
 
-mongoengine.connect(
-    db="sales360",
-    host="mongodb+srv://admin:admin123@sales360.zztdhwr.mongodb.net/?appName=sales360"
-)
+MONGO_URI = os.getenv("MONGO_URI")
+
+try:
+    if MONGO_URI:
+        connect(host=MONGO_URI)
+        print("✅ Connected to MongoDB")
+    else:
+        print("⚠️ MONGO_URI not set")
+except Exception as e:
+    print("❌ MongoDB connection failed:", e)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
